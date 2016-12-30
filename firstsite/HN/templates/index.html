@@ -16,7 +16,7 @@
     
 
 </head>
-<body>
+<body link="black">
     <table border="0" cellspacing="3" cellpadding="3">
         <tbody><tr>
             <td>Min score:</td>
@@ -44,19 +44,19 @@
 <tr>
       
      
-       <td>{{x.0}}</td>
+       <td><a href="https://news.ycombinator.com/item?id={{x.0}}" target="_blank" style="target-new: tab;text-decoration:none">{{x.0}}</td>
       <td>{{x.1}}</td>
       <td>{{x.2}}</td>
 	<td>{{x.3}}</td>      
-        <td>{{x.4}}</td>
- </tr>     
+        <td><a href="{{x.4}}" target="_blank" style="target-new: tab;text-decoration:none">{{x.4}}</td>
+ </tr>
 {% endfor %}
         </tbody>
     </table>
 
-<p><a href='https://github.com/msgoff/HackerNews'>Source Code</p>
-<p><a href='/faq'>FAQ</p>
-<p><a href='/donate'>Coding for Change</p>
+<><a href='https://github.com/msgoff/HackerNews'>Source Code</p>
+<p><a href='/faq/'>FAQ</p>
+<p><a href='/donate/'>Coding for Change</p>
 </body>
 <!-- jQuery -->
 <script type="text/javascript">
@@ -81,8 +81,8 @@ $.fn.dataTable.ext.search.push(
 $(document).ready(function() {
     var table = $('#example').DataTable(
 	{
-        "order": [[ 2, "desc" ]]
-        
+        "order": [[ 2, "desc" ]],
+        "pageLength": 50      
 	});
      
     // Event listener to the two range filtering inputs to redraw on input
@@ -96,26 +96,8 @@ $(document).ready(function() {
 } );
 </script>
 
-<script type="text/javascript">
-    /* Custom filtering function which will search data in column four between two values */
-$.fn.dataTable.ext.search.push(
-    function( settings, data, dataIndex ) {
-        var min = parseInt( $('#min_comments').val(), 10 );
-        var max = parseInt( $('#max_comments').val(), 10 );
-        var score = parseFloat( data[5] ) || 0; // use data for the age column
- 
-        if ( ( isNaN( min ) && isNaN( max ) ) ||
-             ( isNaN( min ) && score <= max ) ||
-             ( min <= score   && isNaN( max ) ) ||
-             ( min <= score   && score <= max ) )
-        {
-            return true;
-        }
-        return false;
-    }
-);
  
      
-</script>
+<script>
 
 </html>

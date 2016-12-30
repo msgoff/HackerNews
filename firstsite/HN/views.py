@@ -20,7 +20,7 @@ import requests
 
 
 def connection():
-        con = psycopg2.connect("dbname='*****' user='*******' host='*****' password='*****'")
+        con = psycopg2.connect("dbname='' user='' host='' password=''")
         return con
 
 con=connection()

@@ -10,7 +10,7 @@ gen = (y for y in test[-1:0:-1])
 test=[]
 print len(test)
 def connection():
-	con = psycopg2.connect("dbname='' user='' host='' password=''")
+	con = psycopg2.connect("dbname= user=' host='localhost' password=''")
 	return con
 con=connection()
  
