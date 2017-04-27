@@ -1,0 +1,21 @@
+import requests
+import pandas as pd 
+import json
+import numpy as np
+import re
+pd.set_option('display.max_colwidth',500)
+
+def prep_data(data):
+    df=pd.DataFrame(pd.DataFrame(json.loads(data.text)['hits']['hits'])['_source'].tolist())
+    df=df.fillna('')
+    df.score=df.score.fillna(np.NAN)
+    df=df.sort_values('score',ascending=False)
+    df=df.drop_duplicates('id')
+    df=df[['by','descendants','id','score','title','url','text']]
+    df.text=df.text.apply(lambda x:re.sub('&#x27;',"'",x))
+    df.text=df.text.apply(lambda x: re.sub(r'&#x2F;|&gt|</?(p|a)|&quot;|amp;|rel="nofollow">',' ',x))
+    return df 
+
+
+data=requests.get('http://192.168.1.192:9200/hn/_search?q=github OR math OR Google OR GPU OR Machine Learning&size=10000')
+df=df[df['score']!='']

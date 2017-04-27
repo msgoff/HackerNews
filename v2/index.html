@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>DataTable</title>
+    {% load staticfiles %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}" type = "text/css"/>
+    
+
+    
+
+</head>
+<body>
+    <table border="0" cellspacing="3" cellpadding="3">
+        <tbody><tr>
+            <td>Min score:</td>
+            <td><input type="text" id="min" name="min"></td>
+	    		<td>Min Comments:</td>
+			<td><input type="text" id="min_comments" name="min_comments"></td>
+ 				<td><b>Min Days</b>:</td>
+                		<td><input type="text" id="min_days" name="min_days"></td>
+
+		</tr>
+		<tr>
+		    <td>Max Score:</td>
+		    <td><input type="text" id="max" name="max"></td>
+		    		<td>Max Comments:</td>
+				<td><input type="text" id="max_comments" name="max_comments"></td>
+        
+					 <td>Max Days:</td>
+		                 	 <td><input type="text" id="max_days" name="max_days"></td>
+
+</tr>   
+    </tbody></table><table id="example" class="display" cellspacing="0" width="100%">
+  <thead>
+    <tr style="text-align: left;">
+      <th>ID</th>
+      <th>{{col.0|title}}</th>
+      <th>{{col.1|title}}</th>
+      <th>{{col.2|title}}</th>
+      <th>{{col.3|title}}</th>
+      <th>comments</th>
+    </tr>
+  </thead>	
+
+{% for x in instance%}
+<tr>
+      
+     
+      <td><a href="https://news.ycombinator.com/item?id={{x.1.ID}}"  onclick="location.href='/';" style="color: #000000;" target="_blank">{{x.1.ID}}</a></td>
+       <td>{{x.1.time}}</td>
+      <td>{{x.1.score}}</td>
+      
+      <td><a href="{{x.1.url}}" onclick="location.href='/';" style="color: #000000; text-decoration: none;" target="_blank">{{x.1.title}}</a></td>
+      
+      <td><a href="https://news.ycombinator.com/user?id={{x.1.by}}" onclick="location.href='/';"style="color: #000000; text-decoration: none;" target="_blank">{{x.1.by}}</a></td>
+      <td>{{x.1.kids}}</td>
+ </tr>     
+{% endfor %}
+        </tbody>
+    </table>
+</body>
+<!-- jQuery -->
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript">
+    /* Custom filtering function which will search data in column four between two values */
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var min = parseInt( $('#min').val(), 10 );
+        var max = parseInt( $('#max').val(), 10 );
+        var score = parseFloat( data[2] ) || 0; // use data for the age column
+        if ( ( isNaN( min ) && isNaN( max ) ) ||
+             ( isNaN( min ) && score <= max ) ||
+             ( min <= score   && isNaN( max ) ) ||
+             ( min <= score   && score <= max ) )
+	     
+        {
+            return true;
+        }
+        return false;
+    }
+);
+ 
+$(document).ready(function() {
+    var table = $('#example').DataTable(
+	{
+        "order": [[ 2, "desc" ]]
+        
+	});
+     
+    // Event listener to the two range filtering inputs to redraw on input
+    $('#min, #max').keyup( function() {
+        table.draw();
+    } );
+
+	
+    $('#min_comments, #max_comments').keyup( function() {
+        table.draw();
+    } );
+} );
+</script>
+
+<script type="text/javascript">
+    /* Custom filtering function which will search data in column four between two values */
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var min = parseInt( $('#min_comments').val(), 10 );
+        var max = parseInt( $('#max_comments').val(), 10 );
+        var score = parseFloat( data[5] ) || 0; // use data for the age column
+ 
+        if ( ( isNaN( min ) && isNaN( max ) ) ||
+             ( isNaN( min ) && score <= max ) ||
+             ( min <= score   && isNaN( max ) ) ||
+             ( min <= score   && score <= max ) )
+        {
+            return true;
+        }
+        return false;
+    }
+);
+ 
+     
+</script>
+
+</html>
