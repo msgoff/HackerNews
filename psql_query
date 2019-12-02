@@ -1,2 +1,0 @@
-sudo -u postgres -H -- psql -d myproject -c "select (select count(id) from hn_stories) + (select count(id) from hn_comments) " 
-

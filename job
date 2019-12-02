@@ -1,1 +1,0 @@
-for i in $(sed -n 4000000,5000000p get_ids);do ./get_stories.sh $i HN_Stories_3;done
