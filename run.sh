@@ -1,1 +1,1 @@
-for i in `seq 10001 999 20000`;do screen -dmS $i python get_stories.py $(($i+1)) $(($i + 999));done
+for i in `seq 20000 999 30000`;do screen -dmS $i python get_stories.py $(($i)) $(($i + 1000));done
